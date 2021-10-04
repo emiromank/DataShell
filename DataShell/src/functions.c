@@ -1,13 +1,21 @@
 /**
  * @file functions.c
- * @author Jose Pablo Montero, Irving Vega, Emilio Roman
+ * @authors: Jose Pablo Montero
+ *					Irving Alejandro Vega Lagunas
+ *					Emilio Roman
  * @date 27/09/2021
  */
+
 
 #include "../libs/def.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+
+//___________________________________________________________________________//
+//------------------------------TAMAÑO DE TABLA------------------------------//
+//___________________________________________________________________________//
 
 
 struct dimensions
@@ -16,10 +24,21 @@ struct dimensions
     int row;
 }; 
 
+
+//___________________________________________________________________________//
+//-----------------------------DATOS DE LA TABLA-----------------------------//
+//___________________________________________________________________________//
+
+
 struct table
 {
 	 float values;
 };
+
+
+//___________________________________________________________________________//
+//------------------------LIMPIA EL BUFFER DE MEMORIA------------------------//
+//___________________________________________________________________________//
 
 
 extern void cleanBuffer(void)
@@ -28,8 +47,14 @@ extern void cleanBuffer(void)
 
         while((clean = getchar()) != '\n' && clean != EOF) { }
 
-        return;
+    return;
   }
+
+
+//___________________________________________________________________________//
+//-----------------------CREA UNA PAUSA EN EL PROGRAMA-----------------------//
+//___________________________________________________________________________//
+
 
 extern void pause(void)
 {
@@ -38,18 +63,26 @@ extern void pause(void)
   getchar();
 }
 
+
+//___________________________________________________________________________//
+//------------------------------MENU DE PROGRAMA-----------------------------//
+//___________________________________________________________________________//
+
+
 char mainMenu(void)
 {
-    char mainMenuOption;
+  char mainMenuOption;
 
     system("clear");
     printf("SELECCIONA UNA OPCION:\n\n\t\t[r]Read Table\n\t\t[p]Print Table\n\t\t[a]Alter table\n\t\t[s]Save Table\n\n\t\t[e]Exit\n\nOpcion: ");
     scanf(" %c", &mainMenuOption);
 
-    return mainMenuOption;
+  return mainMenuOption;
 }
 
 
+//___________________________________________________________________________//
+//----------------------LEE ARCHIVO CSV Y GUARDA TAMAÑO----------------------//
 //___________________________________________________________________________//
 
 
@@ -90,6 +123,8 @@ sizeData readTable(void)
 }
 
 
+//___________________________________________________________________________//
+//---------------------IMPRIME TABLA Y GUARDA EN ARREGLO---------------------//
 //___________________________________________________________________________//
 
 
@@ -132,6 +167,9 @@ tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValu
 
 }
 
+
+//___________________________________________________________________________//
+//---------------------------PERMITE EDITAR TABLA----------------------------//
 //___________________________________________________________________________//
 
 
@@ -155,4 +193,10 @@ void alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues)
   return;
 }
 
-//FORMULA: tabla.columna*(y-1)+x
+
+//___________________________________________________________________________//
+//---------------------GUARDA DATOS DE TABLA EN ARCHIVO----------------------//
+//___________________________________________________________________________//
+
+
+//FORMULA: sizeOfTable.columna*(y-1)+x
