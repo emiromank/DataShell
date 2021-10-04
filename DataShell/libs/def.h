@@ -3,8 +3,9 @@
 #include <string.h>
 
 typedef struct parameters param;
-struct element *tabla;
+typedef struct tabla data;
 
+void limpiarEntradaDatos(void);
 param readTable(char file[]);
 char menu(void);
 void printTable(param table);

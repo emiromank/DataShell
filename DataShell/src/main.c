@@ -16,7 +16,7 @@ int main(void)
     char file[40];
     param table;
 	
-  while(opcionMenu != 's')
+  while(opcionMenu != 'e')
   {
     opcionMenu = menu();
 
@@ -27,21 +27,30 @@ int main(void)
          // printf("Ingresa el nombre del archivo que deseas leer: ");
          // scanf(" %[^\n]", file);
           table = readTable(file);
+          limpiarEntradaDatos();
+          printf("\n\nPresiona la tecla ENTER para continuar\n\n");
+          getchar();
           break;
 
       case 'p':
           system("clear");
           printTable(table);
+          limpiarEntradaDatos();
+          printf("\nPresiona la tecla ENTER para continuar");
+          getchar();
           break;
 
       case 'a':
-          printf(":)");
-          break;
-
-
-      case 's':
           system("clear");
-          printf("Hasta pronto! (._.)/");
+          printf(":)\n\n");
+          break;
+      case 's':
+        printf("Jeje buenas\n\n");
+        break;
+
+      case 'e':
+          system("clear");
+          printf("Hasta pronto! (._.)/\n\n");
           break;
       
       default:

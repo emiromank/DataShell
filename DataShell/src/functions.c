@@ -9,9 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-//
-//___________________________________________________________________________//
-
 
 struct parameters
 {
@@ -19,15 +16,15 @@ struct parameters
     int fila;
 }; 
 
-//___________________________________________________________________________//
-struct element 
-{
-  char columna[50];
-  float number1[101];
-};
 
-//___________________________________________________________________________//
+extern void limpiarEntradaDatos(void)
+  {
+    int limpiar;
 
+        while((limpiar = getchar()) != '\n' && limpiar != EOF) { }
+
+        return;
+  }
 
 char menu(void)
 {
@@ -61,7 +58,6 @@ param readTable(char file[])
     while(fscanf(fp," %[^\n]",dato)==1)
     {
       contadorf++;
-      //printf("%s\n\n", dato);
     }
     
   for(i = 0; i < strlen(dato); i++)
@@ -77,18 +73,17 @@ param readTable(char file[])
     table.columna = contadorc+1;
     table.fila = contadorf;
 		printf("ContadorColumna = %d\nContadorFila = %d\n\n", table.columna, table.fila);
-    printf("\n\nPresiona cualquier letra para continuar");
-	  scanf(" %c", &juan);
     
-
     return table;
 }
 
 
 //___________________________________________________________________________//
 
+
 void printTable(param table)
 {
+  
   float tablita[table.fila][table.columna];
   int i,j,k;
   char juan;
@@ -112,16 +107,12 @@ void printTable(param table)
         k++;
 				if(k == table.columna)break;
 			}
-      printf("%f\t", tablita[i][j]);
+      printf("|%f\t|", tablita[i][j]);
       k = 0;
     }
     printf("\n");
   }
 
-  scanf(" %c", &juan);
   return;
 
 }
-
-//___________________________________________________________________________//
-
