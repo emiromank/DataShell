@@ -35,6 +35,10 @@ int main(void)
           printTable2(table);
           break;
 
+      case 'a':
+          printf(":)");
+          break;
+
 
       case 's':
           system("clear");
