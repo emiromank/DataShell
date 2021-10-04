@@ -13,7 +13,7 @@
 int main(void)
 {
     char opcionMenu;
-    char file[40] = "table_data.db";
+    char file[40];
     param table;
 	
   while(opcionMenu != 's')
@@ -24,8 +24,8 @@ int main(void)
       {
       case 'r':
           system("clear");
-          //printf("Ingresa el nombre del archivo que deseas leer: ");
-          //scanf(" %[^\n]", file);
+         // printf("Ingresa el nombre del archivo que deseas leer: ");
+         // scanf(" %[^\n]", file);
           table = readTable(file);
           break;
 

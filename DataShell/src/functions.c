@@ -57,14 +57,14 @@ param readTable(char file[])
     int contadorf = 0, contadorc = 0, i;
     param table;
 
-    fp = fopen(file, "r");
+    fp = fopen("table_data.db", "r");
 
     if(fp == NULL){
         printf("File not found");
         exit(1);
     }
     
-    while(fscanf(fp," %[^,]",dato)==1)
+    while(fscanf(fp," %[^\n]",dato)==1)
     {
       contadorf++;
       printf("%s\n\n", dato);
@@ -96,15 +96,23 @@ param readTable(char file[])
 
 void printTable2(param table)
 {
-	float tablita[table.columna][table.fila];
   int i,j;
   char juan;
-  for(i = 0; i < table.columna; i++)
+	
+
+	float tablita[table.fila][table.columna];
+
+
+  printf("EN PRINT filas %d columnas %d\n\n", table.fila, table.columna);
+
+  for(i = 0; i < table.fila; i++)
   {
-    for(j = 0; j<table.fila; j++)
+    for(j = 0; j<table.columna; j++)
     {
-    printf("%f", tablita[i][j]);
+    tablita[i][j]=0.1;
+    printf("%f\t", tablita[i][j]);
     }
+    printf("\n");
   }
   scanf(" %c", &juan);
   return;
