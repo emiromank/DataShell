@@ -13,36 +13,36 @@
 int main(void)
 {
     char opcionMenu;
-    char file[40];
+		int suma,i ;
     param table;
+
+    table = readTable();
+		suma = table.fila * table.columna;
+		datos tabla[suma];
 	
   while(opcionMenu != 'e')
   {
     opcionMenu = menu();
 
+
       switch (opcionMenu)
       {
       case 'r':
           system("clear");
-         // printf("Ingresa el nombre del archivo que deseas leer: ");
-         // scanf(" %[^\n]", file);
-          table = readTable(file);
-          limpiarEntradaDatos();
-          printf("\n\nPresiona la tecla ENTER para continuar\n\n");
-          getchar();
+          printf("Cantidad de columnas dentro del archivo = %d\nCantidad de Filas en el archivo = %d\n\n", table.columna, table.fila);
+          pause();
           break;
 
       case 'p':
           system("clear");
-          printTable(table);
-          limpiarEntradaDatos();
-          printf("\nPresiona la tecla ENTER para continuar");
-          getchar();
+          *tabla = printTable(table,tabla, suma);
+          pause();
           break;
 
       case 'a':
           system("clear");
-          printf(":)\n\n");
+          alterTable(table,tabla,suma);
+          pause();
           break;
       case 's':
         printf("Jeje buenas\n\n");

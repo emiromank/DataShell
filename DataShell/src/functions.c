@@ -16,6 +16,10 @@ struct parameters
     int fila;
 }; 
 
+struct tabla{
+ float values;
+};
+
 
 extern void limpiarEntradaDatos(void)
   {
@@ -25,6 +29,13 @@ extern void limpiarEntradaDatos(void)
 
         return;
   }
+
+extern void pause(void)
+{
+  limpiarEntradaDatos();
+  printf("\n\nPresiona la tecla ENTER para continuar\n\n");
+  getchar();
+}
 
 char menu(void)
 {
@@ -41,7 +52,7 @@ char menu(void)
 //___________________________________________________________________________//
 
 
-param readTable(char file[])
+param readTable(void)
 {
     FILE *fp;
     char dato[512],juan;
@@ -72,7 +83,7 @@ param readTable(char file[])
   
     table.columna = contadorc+1;
     table.fila = contadorf;
-		printf("ContadorColumna = %d\nContadorFila = %d\n\n", table.columna, table.fila);
+	
     
     return table;
 }
@@ -81,13 +92,14 @@ param readTable(char file[])
 //___________________________________________________________________________//
 
 
-void printTable(param table)
+datos printTable(param table,datos *tabla, int suma)
 {
   
   float tablita[table.fila][table.columna];
   int i,j,k;
-  char juan;
-  FILE *fp;
+	int cont=0, cont2 = 0,cont3 = 0;
+
+	FILE *fp;
 
   fp = fopen("table_data.db", "r");
 
@@ -108,11 +120,38 @@ void printTable(param table)
 				if(k == table.columna)break;
 			}
       printf("|%f\t|", tablita[i][j]);
+			tabla[cont].values = tablita[i][j];
+			cont++;
       k = 0;
     }
     printf("\n");
   }
 
-  return;
+  return *tabla;
 
+}
+
+//FORMULA: tabla.columna*(y-1)+x
+
+void alterTable(param table, datos *tabla, int suma)
+{
+  int i, cont2=0;
+	
+  printf("Aqui inicia\n\n");
+
+ 	for(i = 0; i < suma; i++ )
+	{
+		cont2++;
+		printf("|%f\t|", tabla[i].values);
+	  if(cont2 == table.columna)
+	  {
+    	printf("\n");
+	  	cont2=0;
+	  }
+	}
+
+  printf("Aqui termina\n\n");
+
+
+  return;
 }

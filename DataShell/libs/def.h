@@ -3,11 +3,12 @@
 #include <string.h>
 
 typedef struct parameters param;
-typedef struct tabla data;
+typedef struct tabla datos;
 
 void limpiarEntradaDatos(void);
-param readTable(char file[]);
+void pause(void);
+param readTable(void);
 char menu(void);
-void printTable(param table);
-//int alterTable(nodo *pt);
+datos printTable(param table, datos *tabla, int suma);
+void alterTable(param table, datos *tabla, int suma);
 //void saveTable(nodo *pt);
