@@ -12,36 +12,36 @@
 
 int main(void)
 {
-    char opcionMenu;
-		int suma,i ;
-    param table;
+    char mainMenuOption;
+		int tableTotalValues,i;
+    sizeData sizeOfTable;
 
-    table = readTable();
-		suma = table.fila * table.columna;
-		datos tabla[suma];
+    sizeOfTable = readTable();
+		tableTotalValues = sizeOfTable.row * sizeOfTable.column;
+		tableData content[tableTotalValues];
 	
-  while(opcionMenu != 'e')
+  while(mainMenuOption != 'e')
   {
-    opcionMenu = menu();
+    mainMenuOption = mainMenu();
 
 
-      switch (opcionMenu)
+      switch (mainMenuOption)
       {
       case 'r':
           system("clear");
-          printf("Cantidad de columnas dentro del archivo = %d\nCantidad de Filas en el archivo = %d\n\n", table.columna, table.fila);
+          printf("Cantidad de columnas dentro del archivo = %d\nCantidad de Filas en el archivo = %d\n\n", sizeOfTable.column, sizeOfTable.row);
           pause();
           break;
 
       case 'p':
           system("clear");
-          *tabla = printTable(table,tabla, suma);
+          *content = printTable(sizeOfTable,content, tableTotalValues);
           pause();
           break;
 
       case 'a':
           system("clear");
-          alterTable(table,tabla,suma);
+          alterTable(sizeOfTable,content,tableTotalValues);
           pause();
           break;
       case 's':

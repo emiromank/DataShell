@@ -10,54 +10,55 @@
 #include <string.h>
 
 
-struct parameters
+struct dimensions
 {
-    int columna;
-    int fila;
+    int column;
+    int row;
 }; 
 
-struct tabla{
- float values;
+struct table
+{
+	 float values;
 };
 
 
-extern void limpiarEntradaDatos(void)
+extern void cleanBuffer(void)
   {
-    int limpiar;
+    int clean;
 
-        while((limpiar = getchar()) != '\n' && limpiar != EOF) { }
+        while((clean = getchar()) != '\n' && clean != EOF) { }
 
         return;
   }
 
 extern void pause(void)
 {
-  limpiarEntradaDatos();
+  cleanBuffer();
   printf("\n\nPresiona la tecla ENTER para continuar\n\n");
   getchar();
 }
 
-char menu(void)
+char mainMenu(void)
 {
-    char opcionMenu;
+    char mainMenuOption;
 
     system("clear");
     printf("SELECCIONA UNA OPCION:\n\n\t\t[r]Read Table\n\t\t[p]Print Table\n\t\t[a]Alter table\n\t\t[s]Save Table\n\n\t\t[e]Exit\n\nOpcion: ");
-    scanf(" %c", &opcionMenu);
+    scanf(" %c", &mainMenuOption);
 
-    return opcionMenu;
+    return mainMenuOption;
 }
 
 
 //___________________________________________________________________________//
 
 
-param readTable(void)
+sizeData readTable(void)
 {
     FILE *fp;
-    char dato[512],juan;
-    int contadorf = 0, contadorc = 0, i;
-    param table;
+    char row[512];
+    int rowNum = 0, columnNum = 0, i;
+    sizeData sizeOfTable;
 
     fp = fopen("table_data.db", "r");
 
@@ -66,36 +67,36 @@ param readTable(void)
         exit(1);
     }
     
-    while(fscanf(fp," %[^\n]",dato)==1)
+    while(fscanf(fp," %[^\n]",row)==1)
     {
-      contadorf++;
+      rowNum++;
     }
     
-  for(i = 0; i < strlen(dato); i++)
+  for(i = 0; i < strlen(row); i++)
     {
-      if(dato[i] == ',')
+      if(row[i] == ',')
       {
-        contadorc++;
+        columnNum++;
       }
     }
 
 	  fclose(fp);
   
-    table.columna = contadorc+1;
-    table.fila = contadorf;
+    sizeOfTable.column = columnNum+1;
+    sizeOfTable.row = rowNum;
 	
     
-    return table;
+    return sizeOfTable;
 }
 
 
 //___________________________________________________________________________//
 
 
-datos printTable(param table,datos *tabla, int suma)
+tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValues)
 {
   
-  float tablita[table.fila][table.columna];
+  float biDimTable[sizeOfTable.row][sizeOfTable.column];
   int i,j,k;
 	int cont=0, cont2 = 0,cont3 = 0;
 
@@ -108,50 +109,50 @@ datos printTable(param table,datos *tabla, int suma)
         exit(1);
   }
 
-  printf("EN PRINT filas %d columnas %d\n\n", table.fila, table.columna);
+  printf("EN PRINT filas %d columnas %d\n\n", sizeOfTable.row, sizeOfTable.column);
 
-  for(i = 0; i < table.fila; i++)
+  for(i = 0; i < sizeOfTable.row; i++)
   {
-    for(j = 0; j < table.columna; j++)
+    for(j = 0; j < sizeOfTable.column; j++)
     {
-      while(fscanf(fp,"%f,", &tablita[i][j])==0)
+      while(fscanf(fp,"%f,", &biDimTable[i][j])==0)
 			{
         k++;
-				if(k == table.columna)break;
+				if(k == sizeOfTable.column)break;
 			}
-      printf("|%f\t|", tablita[i][j]);
-			tabla[cont].values = tablita[i][j];
+      printf("|%f\t|", biDimTable[i][j]);
+			content[cont].values = biDimTable[i][j];
 			cont++;
       k = 0;
     }
     printf("\n");
   }
 
-  return *tabla;
+  return *content;
 
 }
 
-//FORMULA: tabla.columna*(y-1)+x
+//___________________________________________________________________________//
 
-void alterTable(param table, datos *tabla, int suma)
+
+void alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues)
 {
   int i, cont2=0;
 	
-  printf("Aqui inicia\n\n");
+  printf("Table:\n");
 
- 	for(i = 0; i < suma; i++ )
+ 	for(i = 0; i < tableTotalValues; i++ )
 	{
 		cont2++;
-		printf("|%f\t|", tabla[i].values);
-	  if(cont2 == table.columna)
+		printf("|%f\t|", content[i].values);
+	  if(cont2 == sizeOfTable.column)
 	  {
     	printf("\n");
 	  	cont2=0;
 	  }
 	}
 
-  printf("Aqui termina\n\n");
-
-
   return;
 }
+
+//FORMULA: tabla.columna*(y-1)+x

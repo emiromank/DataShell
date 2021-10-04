@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct parameters param;
-typedef struct tabla datos;
+typedef struct dimensions sizeData;
+typedef struct table tableData;
 
-void limpiarEntradaDatos(void);
+void cleanBuffer(void);
 void pause(void);
-param readTable(void);
-char menu(void);
-datos printTable(param table, datos *tabla, int suma);
-void alterTable(param table, datos *tabla, int suma);
+sizeData readTable(void);
+char mainMenu(void);
+tableData printTable(sizeData sizeOfTable, tableData *content, int tableTotalValues);
+void alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues);
 //void saveTable(nodo *pt);
