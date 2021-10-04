@@ -8,6 +8,5 @@ struct element *tabla;
 param readTable(char file[]);
 char menu(void);
 void printTable(param table);
-void printTable2(param table);
 //int alterTable(nodo *pt);
 //void saveTable(nodo *pt);

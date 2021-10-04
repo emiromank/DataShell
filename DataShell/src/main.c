@@ -31,8 +31,7 @@ int main(void)
 
       case 'p':
           system("clear");
-          //printTable(table);
-          printTable2(table);
+          printTable(table);
           break;
 
       case 'a':

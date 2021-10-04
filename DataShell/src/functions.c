@@ -19,20 +19,14 @@ struct parameters
     int fila;
 }; 
 
-
 //___________________________________________________________________________//
-
-
-
 struct element 
 {
   char columna[50];
   float number1[101];
 };
 
-
 //___________________________________________________________________________//
-
 
 
 char menu(void)
@@ -40,7 +34,7 @@ char menu(void)
     char opcionMenu;
 
     system("clear");
-    printf("SELECCIONA UNA OPCION:\n\n\t\t[r]Read Table\n\t\t[p]Print Table\n\t\t[a]Alter table\n\t\t[g]Save Table\n\n\t\t[s]Exit\n\nOpcion: ");
+    printf("SELECCIONA UNA OPCION:\n\n\t\t[r]Read Table\n\t\t[p]Print Table\n\t\t[a]Alter table\n\t\t[s]Save Table\n\n\t\t[e]Exit\n\nOpcion: ");
     scanf(" %c", &opcionMenu);
 
     return opcionMenu;
@@ -67,8 +61,7 @@ param readTable(char file[])
     while(fscanf(fp," %[^\n]",dato)==1)
     {
       contadorf++;
-      printf("%s\n\n", dato);
-        
+      //printf("%s\n\n", dato);
     }
     
   for(i = 0; i < strlen(dato); i++)
@@ -94,26 +87,37 @@ param readTable(char file[])
 
 //___________________________________________________________________________//
 
-void printTable2(param table)
+void printTable(param table)
 {
-  int i,j;
+  float tablita[table.fila][table.columna];
+  int i,j,k;
   char juan;
-	
+  FILE *fp;
 
-	float tablita[table.fila][table.columna];
+  fp = fopen("table_data.db", "r");
 
+  if(fp == NULL){
+        printf("File not found");
+        exit(1);
+  }
 
   printf("EN PRINT filas %d columnas %d\n\n", table.fila, table.columna);
 
   for(i = 0; i < table.fila; i++)
   {
-    for(j = 0; j<table.columna; j++)
+    for(j = 0; j < table.columna; j++)
     {
-    tablita[i][j]=0.1;
-    printf("%f\t", tablita[i][j]);
+      while(fscanf(fp,"%f,", &tablita[i][j])==0)
+			{
+        k++;
+				if(k == table.columna)break;
+			}
+      printf("%f\t", tablita[i][j]);
+      k = 0;
     }
     printf("\n");
   }
+
   scanf(" %c", &juan);
   return;
 
@@ -121,45 +125,3 @@ void printTable2(param table)
 
 //___________________________________________________________________________//
 
-
-
-void printTable(param table)
-{
-
-int i,j;
-char juan;
-
-tabla = (struct element *)malloc(sizeof(struct element) * table.columna);
-
-
-  printf("\tAncho %d\n", table.fila);
-  printf("\tLargo %d\n", table.columna);
-
-
-for (i = 0; i < table.fila; i++) 
-{
-  for(j = 0; j < table.columna; j++)
-  {
-  tabla[i].number1[j] = 44;
-  }
-}
-
-
-for (i = 0; i < table.fila; i++) 
-{
-  
-  for(j = 0; j < table.columna; j++)
-  {
-    
-    printf("|\t%.2f\t|",tabla[i].number1[j]);
-  }
-printf("\n------------------------------------------\n");
-
-}
-
-	    scanf(" %c", &juan);
-
-}
-
-
-//___________________________________________________________________________//
