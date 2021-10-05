@@ -13,7 +13,7 @@
 int main(void)
 {
     char mainMenuOption;
-		int tableTotalValues,i;
+		int tableTotalValues,i, overwrite;
     sizeData sizeOfTable;
 
     sizeOfTable = readTable();
@@ -41,12 +41,13 @@ int main(void)
 
       case 'a':
           system("clear");
-          alterTable(sizeOfTable,content,tableTotalValues);
+          overwrite = alterTable(sizeOfTable,content,tableTotalValues);
           pause();
           break;
       case 's':
-        printf("Jeje buenas\n\n");
-        break;
+          saveTable(sizeOfTable,content,tableTotalValues,overwrite);
+          pause();
+          break;
 
       case 'e':
           system("clear");

@@ -1,3 +1,4 @@
+
 /**
  * @file functions.c
  * @authors: Jose Pablo Montero
@@ -17,29 +18,24 @@
 //------------------------------TAMAÑO DE TABLA------------------------------//
 //___________________________________________________________________________//
 
-
 struct dimensions
 {
     int column;
     int row;
 }; 
 
-
 //___________________________________________________________________________//
 //-----------------------------DATOS DE LA TABLA-----------------------------//
 //___________________________________________________________________________//
-
 
 struct table
 {
 	 float values;
 };
 
-
 //___________________________________________________________________________//
 //------------------------LIMPIA EL BUFFER DE MEMORIA------------------------//
 //___________________________________________________________________________//
-
 
 extern void cleanBuffer(void)
   {
@@ -50,11 +46,9 @@ extern void cleanBuffer(void)
     return;
   }
 
-
 //___________________________________________________________________________//
 //-----------------------CREA UNA PAUSA EN EL PROGRAMA-----------------------//
 //___________________________________________________________________________//
-
 
 extern void pause(void)
 {
@@ -63,11 +57,9 @@ extern void pause(void)
   getchar();
 }
 
-
 //___________________________________________________________________________//
 //------------------------------MENU DE PROGRAMA-----------------------------//
 //___________________________________________________________________________//
-
 
 char mainMenu(void)
 {
@@ -80,11 +72,9 @@ char mainMenu(void)
   return mainMenuOption;
 }
 
-
 //___________________________________________________________________________//
 //----------------------LEE ARCHIVO CSV Y GUARDA TAMAÑO----------------------//
 //___________________________________________________________________________//
-
 
 sizeData readTable(void)
 {
@@ -122,11 +112,9 @@ sizeData readTable(void)
     return sizeOfTable;
 }
 
-
 //___________________________________________________________________________//
 //---------------------IMPRIME TABLA Y GUARDA EN ARREGLO---------------------//
 //___________________________________________________________________________//
-
 
 tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValues)
 {
@@ -167,13 +155,11 @@ tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValu
 
 }
 
-
 //___________________________________________________________________________//
 //---------------------------PERMITE EDITAR TABLA----------------------------//
 //___________________________________________________________________________//
 
-
-void alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues)
+int alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues)
 {
   int i, cont2=0,j, pointer = 1,edit=0;
 	int x,y, celda=0;
@@ -290,13 +276,70 @@ do
     
 }while(tecla != 'q');
 
-  return;
+  return edit;
 }
 //FORMULA: sizeOfTable.column*(y-1)+x
 
 //___________________________________________________________________________//
 //---------------------GUARDA DATOS DE TABLA EN ARCHIVO----------------------//
 //___________________________________________________________________________//
+void saveTable(sizeData sizeOfTable, tableData *content, int tableTotalValues, int overwrite)
+{
+  int i, cont2=0;
+
+	FILE *fp;
+
+	fp = fopen("table_data.db", "w");
+
+    if(fp == NULL){
+        printf("File not found");
+        exit(1);
+    }
+
+ 	for(i = 1; i < tableTotalValues + (overwrite*sizeOfTable.column); i++ )
+	{
+		cont2++;
+  
+    if(i < tableTotalValues)
+	  {
+      if(cont2 == sizeOfTable.column)
+      {
+      	printf("|%f\t|", content[i].values);
+        fprintf(fp,"%f", content[i].values);
+      }
+      else if(cont2 != sizeOfTable.column)
+      {
+  		printf("|%f\t|", content[i].values);
+      fprintf(fp,"%f,", content[i].values);      
+      }
+	  }
+
+		if(i > tableTotalValues-1)
+	  {
+      if(cont2 == sizeOfTable.column)
+      {
+    	printf("|0.000000\t|");
+      fprintf(fp,"0.000000");
+      }
+      else if(cont2 != sizeOfTable.column)
+      {
+        printf("|0.000000\t|");
+        fprintf(fp,"0.000000,");
+      }
+    }
+
+	  if(cont2 == sizeOfTable.column)
+	  {
+    	printf("\n");
+      fprintf(fp,"\n");
+	  	cont2=0;
+	  }
+	}
+
+fclose(fp);
+
+  return;
+}
 
 
 

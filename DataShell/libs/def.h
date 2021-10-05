@@ -10,5 +10,5 @@ void pause(void);
 sizeData readTable(void);
 char mainMenu(void);
 tableData printTable(sizeData sizeOfTable, tableData *content, int tableTotalValues);
-void alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues);
-//void saveTable(sizeData sizeOfTable);
+int alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues);
+void saveTable(sizeData sizeOfTable, tableData *content, int tableTotalValues, int overwrite);
