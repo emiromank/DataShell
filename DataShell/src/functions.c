@@ -133,7 +133,7 @@ tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValu
   
   float biDimTable[sizeOfTable.row][sizeOfTable.column];
   int i,j,k;
-	int cont=0, cont2 = 0,cont3 = 0;
+	int cont=1, cont2 = 0,cont3 = 0;
 
 	FILE *fp;
 
@@ -175,14 +175,26 @@ tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValu
 
 void alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues)
 {
-  int i, cont2=0;
-	
-  printf("Table:\n");
+  int i, cont2=0,j, pointer = 1,edit=0;
+	int x,y, celda=0;
+  char tecla;
 
- 	for(i = 0; i < tableTotalValues; i++ )
+do
+{
+  printf("\nUtiliza [w] [a] [s]	[d] para desplazarte por la tabla:\nPresione [e] para editar el valor de la celda:\nPresione [f] busqueda de celda por cordenada:\nPresione [n] para agregar nueva fila:\n\nPresione [q] para salir:\n\n");
+  
+ 	for(i = 1; i < tableTotalValues + (edit*sizeOfTable.column); i++ )
 	{
 		cont2++;
+		if(i < tableTotalValues)
+		{
 		printf("|%f\t|", content[i].values);
+		}
+		if(i > tableTotalValues-1)
+	  {
+    	printf("|0.000000\t|");
+	  }
+
 	  if(cont2 == sizeOfTable.column)
 	  {
     	printf("\n");
@@ -190,13 +202,101 @@ void alterTable(sizeData sizeOfTable, tableData *content, int tableTotalValues)
 	  }
 	}
 
+			printf("edit %d", edit);
+
+    printf("\nValor de la celda actual: %f \t:", content[pointer].values);
+    scanf(" %c", &tecla);
+
+  switch(tecla) 
+  {
+    case 'w': 
+
+      printf("\nUp row");
+			pointer = pointer - sizeOfTable.column;
+      printf("\nValor de %d celda actual: %f",pointer, content[pointer].values);
+      system("clear");
+
+    break;
+
+    case 'a': 
+
+      printf("\nLeft column ");
+      pointer = pointer-1;
+      printf("\nValor de %d celda actual: %f",pointer, content[pointer-1].values);
+      system("clear");
+
+    break;
+
+    case 's': 
+
+      printf("\nDown row");
+			pointer = pointer + sizeOfTable.column;
+      printf("\nValor de %d celda actual: %f",pointer, content[pointer].values);
+      system("clear");
+
+    break;
+
+    case 'd': 
+
+      printf("\nRight column");
+			pointer=pointer+1;
+      printf("\nValor de %d celda actual: %f",pointer, content[pointer].values);
+      system("clear");
+
+    break;
+
+    case 'e': 
+
+      printf("\nEdit cell");		  
+      printf("\nValor de %d celda actual: %f",pointer, content[pointer].values);
+      printf("\nIngrese el nuevo valor para esta celda: ");
+      scanf(" %f", &content[pointer].values);
+      printf("\nNuevo valor de %d celda actual: %f",pointer, content[pointer].values);
+      system("clear");
+
+    break;
+
+    case 'f': 
+
+      printf("\nFind cell");
+      printf("\nIngrese el valor de [x & y]: ");
+      scanf(" %d %d", &x, &y);
+      pointer = sizeOfTable.column*(y-1)+x;
+      printf("\nValor de %d celda actual: %f",pointer, content[pointer].values);
+      system("clear");
+
+    break;
+
+    case 'n': 
+
+      printf("\nNew row ");
+			printf("\nIngrese cuantas filas desea agregar: ");
+      scanf(" %d", &edit);
+      system("clear");
+
+    break;
+
+    case 'q':
+
+    system("clear");
+    printf("Saliendo...\n\n");
+
+      break;
+
+    default: 
+      printf("\nInvalid value");
+      break;
+  }
+    
+}while(tecla != 'q');
+
   return;
 }
-
+//FORMULA: sizeOfTable.column*(y-1)+x
 
 //___________________________________________________________________________//
 //---------------------GUARDA DATOS DE TABLA EN ARCHIVO----------------------//
 //___________________________________________________________________________//
 
 
-//FORMULA: sizeOfTable.columna*(y-1)+x
+

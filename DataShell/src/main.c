@@ -17,7 +17,7 @@ int main(void)
     sizeData sizeOfTable;
 
     sizeOfTable = readTable();
-		tableTotalValues = sizeOfTable.row * sizeOfTable.column;
+		tableTotalValues = (sizeOfTable.row * sizeOfTable.column)+1;
 		tableData content[tableTotalValues];
 	
   while(mainMenuOption != 'e')
