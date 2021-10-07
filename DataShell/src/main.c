@@ -15,11 +15,21 @@ int main(void)
     char mainMenuOption;
 		int tableTotalValues,i, overwrite;
     sizeData sizeOfTable;
+    
 
     sizeOfTable = readTable();
+    header title[sizeOfTable.row];
+		readTitle(title,sizeOfTable);
 		tableTotalValues = (sizeOfTable.row * sizeOfTable.column)+1;
 		tableData content[tableTotalValues];
 	
+	/*for(i=0;i<sizeOfTable.column;i++)
+  {
+		printf("hola %s\n",title[i].title);
+  }
+	*/	
+
+
   while(mainMenuOption != 'e')
   {
     mainMenuOption = mainMenu();
@@ -35,7 +45,7 @@ int main(void)
 
       case 'p':
           system("clear");
-          *content = printTable(sizeOfTable,content, tableTotalValues);
+          *content = printTable(title,sizeOfTable,content, tableTotalValues);
           pause();
           break;
 
@@ -45,7 +55,7 @@ int main(void)
           pause();
           break;
       case 's':
-          saveTable(sizeOfTable,content,tableTotalValues,overwrite);
+          saveTable(title, sizeOfTable,content,tableTotalValues,overwrite);
           pause();
           break;
 

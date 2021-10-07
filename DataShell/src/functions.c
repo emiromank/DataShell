@@ -34,6 +34,15 @@ struct table
 };
 
 //___________________________________________________________________________//
+//----------------------------DATOS DE LOS TITULOS---------------------------//
+//___________________________________________________________________________//
+
+struct tableHeader
+{
+	 char title[20];
+};
+
+//___________________________________________________________________________//
 //------------------------LIMPIA EL BUFFER DE MEMORIA------------------------//
 //___________________________________________________________________________//
 
@@ -65,7 +74,7 @@ char mainMenu(void)
 {
   char mainMenuOption;
 
-    system("clear");
+//    system("clear");
     printf("SELECCIONA UNA OPCION:\n\n\t\t[r]Read Table\n\t\t[p]Print Table\n\t\t[a]Alter table\n\t\t[s]Save Table\n\n\t\t[e]Exit\n\nOpcion: ");
     scanf(" %c", &mainMenuOption);
 
@@ -106,33 +115,103 @@ sizeData readTable(void)
 	  fclose(fp);
   
     sizeOfTable.column = columnNum+1;
-    sizeOfTable.row = rowNum;
+    sizeOfTable.row = rowNum-1;
 	
     
     return sizeOfTable;
 }
 
 //___________________________________________________________________________//
-//---------------------IMPRIME TABLA Y GUARDA EN ARREGLO---------------------//
+//----------------------LEE ARCHIVO CSV Y GUARDA TAMAÑO----------------------//
 //___________________________________________________________________________//
 
-tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValues)
+void readTitle(header *title,sizeData sizeOfTable)
 {
-  
-  float biDimTable[sizeOfTable.row][sizeOfTable.column];
-  int i,j,k;
-	int cont=1, cont2 = 0,cont3 = 0;
+  FILE *fp;
+  char buffer[512],juan;
+	char palabra[sizeOfTable.column][512];
+  int rowNum = 0, columnNum = 0, i = 0, j=0,k=0;
 
-	FILE *fp;
 
   fp = fopen("table_data.db", "r");
 
   if(fp == NULL){
-        printf("File not found");
-        exit(1);
+    printf("File not found");
+    exit(1);
   }
 
+  fscanf(fp," %[^\n]", buffer);
+
+
+  for(i = 0; i <strlen(buffer);i++)
+  {
+	  if(buffer[i] != ',')
+	  {
+		  palabra[j][k] = buffer[i];
+		  k++;
+	  }
+	  if (buffer[i] == ',')
+    {
+	    k=0;
+      j++;
+    }
+ }
+
+ for(i = 0; i <sizeOfTable.column;i++)
+  {
+    strcpy(title[i].title, palabra[i]);
+  }
+
+  fclose(fp);
+  
+return ;
+}
+
+//___________________________________________________________________________//
+//---------------------IMPRIME TABLA Y GUARDA EN ARREGLO---------------------//
+//___________________________________________________________________________//
+
+tableData printTable(header *title,sizeData sizeOfTable,tableData *content, int tableTotalValues)
+{
+  char buffer[512];
+  float biDimTable[sizeOfTable.row][sizeOfTable.column];
+  int i=0,j,k;
+	int cont=1, cont2 = 0,cont3 = 0;
+
+	FILE *fp;
+	FILE *fp1;
+	FILE *fp2;
+	  fp1 = fopen("table_data.db", "r");
+	  fp2 = fopen("table_data2.db", "w");
+		  if(fp1 == NULL)
+			{
+        printf("File not found");
+        exit(1);
+ 			}
+			     while(fscanf(fp1," %[^\n]",buffer)==1)
+					{
+						if(i!=0)
+						{
+						fprintf(fp2,"%s\n",buffer);
+						}
+						i++;
+					}
+  fclose(fp1);
+  fclose(fp2);
+
+  fp = fopen("table_data2.db", "r");
+
+
+
   printf("EN PRINT filas %d columnas %d\n\n", sizeOfTable.row, sizeOfTable.column);
+
+		for(i=0;i<sizeOfTable.column;i++)
+  {
+		printf("|\t%s\t|",title[i].title);
+  }	
+	    printf("\n");
+
+
 
   for(i = 0; i < sizeOfTable.row; i++)
   {
@@ -143,13 +222,15 @@ tableData printTable(sizeData sizeOfTable,tableData *content, int tableTotalValu
         k++;
 				if(k == sizeOfTable.column)break;
 			}
-      printf("|%f\t|", biDimTable[i][j]);
+      printf("|\t%f\t|", biDimTable[i][j]);
 			content[cont].values = biDimTable[i][j];
 			cont++;
       k = 0;
     }
     printf("\n");
   }
+
+	  fclose(fp);
 
   return *content;
 
@@ -283,9 +364,9 @@ do
 //___________________________________________________________________________//
 //---------------------GUARDA DATOS DE TABLA EN ARCHIVO----------------------//
 //___________________________________________________________________________//
-void saveTable(sizeData sizeOfTable, tableData *content, int tableTotalValues, int overwrite)
+void saveTable(header *title,sizeData sizeOfTable, tableData *content, int tableTotalValues, int overwrite)
 {
-  int i, cont2=0;
+  int i, cont2=0,cont=0;
 
 	FILE *fp;
 
@@ -295,6 +376,24 @@ void saveTable(sizeData sizeOfTable, tableData *content, int tableTotalValues, i
         printf("File not found");
         exit(1);
     }
+
+		for(i=0;i<sizeOfTable.column;i++)
+  {
+		  if(i == sizeOfTable.column-1)
+      {
+				printf("|\t%s\t|",title[i].title);
+				fprintf(fp,"%s\n", title[i].title);
+			}
+      else if(i != sizeOfTable.column-1)
+      {
+				printf("|\t%s\t|",title[i].title);
+				fprintf(fp,"%s,", title[i].title);
+			}
+		cont++;
+  }	
+	    printf("\n");
+
+
 
  	for(i = 1; i < tableTotalValues + (overwrite*sizeOfTable.column); i++ )
 	{
