@@ -22,12 +22,6 @@ int main(void)
 		readTitle(title,sizeOfTable);
 		tableTotalValues = (sizeOfTable.row * sizeOfTable.column)+1;
 		tableData content[tableTotalValues];
-	
-	/*for(i=0;i<sizeOfTable.column;i++)
-  {
-		printf("hola %s\n",title[i].title);
-  }
-	*/	
 
 
   while(mainMenuOption != 'e')
